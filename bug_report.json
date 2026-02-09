@@ -1,0 +1,50 @@
+[
+    {
+        "line": "1",
+        "issue": "Missing include file",
+        "explanation": "Cppcheck was unable to locate the `<iostream>` header file. While Cppcheck can analyze code without standard library headers, this warning often indicates that Cppcheck's include paths are not correctly configured to find standard library headers, or the header genuinely doesn't exist in the specified paths.",
+        "suggested_fix": "Ensure that Cppcheck is run with the necessary include paths for standard library headers (e.g., using `-I /path/to/stl/headers` or configuring Cppcheck's project settings). For standard library headers like iostream, this is usually a configuration issue."
+    },
+    {
+        "line": "2",
+        "issue": "Missing include file",
+        "explanation": "Cppcheck was unable to locate the `<vector>` header file. Similar to the `<iostream>` warning, this likely points to an issue with Cppcheck's configuration regarding include paths for standard library headers, preventing it from finding essential STL components.",
+        "suggested_fix": "Ensure Cppcheck is run with appropriate include paths (e.g., `-I /usr/include/c++/X.Y.Z` or similar, depending on your system and compiler) so it can find standard library headers like `<vector>`."
+    },
+    {
+        "line": "19",
+        "issue": "Array index out of bounds",
+        "explanation": "The array `scores` is declared with a size of 3, meaning its valid indices are 0, 1, and 2. Attempting to access `scores[3]` is an out-of-bounds access, which leads to undefined behavior, potential crashes, or data corruption.",
+        "suggested_fix": "Access array elements within their valid range (0 to size-1). If you intend to store and access a fourth score, declare the array with a size of at least 4 (e.g., `int scores[4] = {90, 85, 80, 75};`). If the intent was to access the last element, use `scores[2]`."
+    },
+    {
+        "line": "26",
+        "issue": "Memory leak",
+        "explanation": "Memory was allocated using `new int[100]` for the `leak` pointer, but the corresponding `delete[] leak;` call is missing before the pointer goes out of scope. This results in the dynamically allocated memory not being freed, leading to a memory leak.",
+        "suggested_fix": "Deallocate the memory using `delete[] leak;` when it is no longer needed, typically before the function returns or the pointer is reassigned. A more robust solution is to use smart pointers like `std::unique_ptr<int[]>` for automatic memory management of arrays."
+    },
+    {
+        "line": "7",
+        "issue": "Null pointer dereference",
+        "explanation": "The pointer `ptr` is explicitly initialized to `nullptr` and then immediately dereferenced (`*ptr = 10;`). Attempting to access memory through a null pointer results in undefined behavior, which commonly causes a program crash (e.g., a segmentation fault).",
+        "suggested_fix": "Ensure that pointers are valid (i.e., point to allocated memory or a valid object) before dereferencing them. For example, allocate memory with `int* ptr = new int;` (and remember to `delete ptr;` later) or add a check `if (ptr != nullptr)` before use."
+    },
+    {
+        "line": "18",
+        "issue": "Variable can be declared as const",
+        "explanation": "The `scores` array is initialized but its values are not modified throughout its scope. Declaring it as `const` makes the code's intent clearer, prevents accidental modifications, and can enable minor compiler optimizations.",
+        "suggested_fix": "Declare the array as `const`: `const int scores[3] = {90, 85, 80};`."
+    },
+    {
+        "line": "13",
+        "issue": "Uninitialized variable use",
+        "explanation": "The variable `uninitialized_var` is declared but not assigned a value before being used in the `if` condition. Accessing an uninitialized local variable leads to undefined behavior, meaning its value could be arbitrary, causing unpredictable program flow.",
+        "suggested_fix": "Initialize the variable before its first use. For example, `int uninitialized_var = 0;` or assign it a meaningful value based on the program's logic."
+    },
+    {
+        "line": "4",
+        "issue": "Unused function",
+        "explanation": "The function `potential_crash` is defined but never called from `main()` or any other part of the program. This indicates dead code that is not contributing to the program's execution, potentially making the codebase harder to maintain or larger than necessary.",
+        "suggested_fix": "If the function is intended to be part of the program's logic, call it from `main()` or another relevant function. If it's no longer needed, remove the function definition to improve code clarity and reduce bloat."
+    }
+]
