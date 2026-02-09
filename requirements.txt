@@ -1,1 +1,4 @@
 python-dotenv
+streamlit
+huggingface_hub
+python-dotenv
